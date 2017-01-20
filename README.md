@@ -1,3 +1,3 @@
-# Solved problems in UVa and SPOJ
+# Solved problems in some OJs
 
-Solved problems in some OJs. Problems are categorized as much as possible.
+Problems are categorized as much as possible.
