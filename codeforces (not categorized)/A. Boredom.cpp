@@ -15,7 +15,7 @@ using namespace std;
 #define INF             1000000
 #define EPS             1e-6
 #define MAX             100000
-#define MOD             1000000007
+
 #define MAXE            1000000
 #define COST            first
 #define V1              second.first
@@ -29,41 +29,34 @@ typedef pair<int,int> PII;
 typedef vector<PII> VII;
 typedef pair<pair<int,int>,int> PIII;
 
-ll dp[105][105][2];
-int n, k, d;
-ll solve(int i, int sum, int hasD) {
-  if (sum > n) {
-    return 0;
-  }
-  if (dp[i][sum][hasD] != -1) {
-    return dp[i][sum][hasD];
-  }
-  if (sum == n && hasD == 1) {
-    return 1;
-  }
-  if (sum == n && hasD == 0) {
-    return 0;
-  }
+int n;
+VL a, c, dp;
 
-  ll res = 0;
-  for (size_t j = 1; j <= k; j++) {
-    int hasD_ = 0;
-    if (j >= d) hasD_ = 1;
-    res = (res + solve(i+1, sum+j, hasD|hasD_)) % MOD;
+ll solve(int i) {
+  if (i >= MAX) {
+    return c[i]*i;
   }
-  return dp[i][sum][hasD] = res;
+  if (dp[i] != -1) {
+    return dp[i];
+  }
+  ll option1 = i*1LL*c[i] + solve(i+2);
+  ll option2 = solve(i+1);
+  return dp[i] = max(option1, option2);
 }
-
 int main() {
   freopen("in.txt","r", stdin);
-  //freopen("out.txt","w", stdout);
-  for (size_t i = 0; i < 105; i++) {
-    for (size_t j = 0; j < 105; j++) {
-      dp[i][j][0] = -1;
-      dp[i][j][1] = -1;
-    }
+  // freopen("out.txt","w", stdout);
+
+  int n;
+  cin >> n;
+  a = VL(n);
+  c = VL(MAX + 5, 0);
+  dp = VL(MAX + 5, -1);
+  for (size_t i = 0; i < n; i++) {
+    cin >> a[i];
+    c[a[i]]++;
   }
-  cin >> n >> k >> d;
-  cout << solve(0, 0, 0) << endl;
+  cout << solve(0) << endl;
+
   return 0;
 }

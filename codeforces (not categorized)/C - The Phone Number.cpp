@@ -14,56 +14,38 @@ using namespace std;
 #define REP(i, b, e) 	  for(typeof(e) i=b; i!=e; ++i)
 #define INF             1000000
 #define EPS             1e-6
-#define MAX             100000
-#define MOD             1000000007
+#define MAX             10000005
+
 #define MAXE            1000000
 #define COST            first
 #define V1              second.first
 #define V2              second.second
 
 typedef vector<int> VI;
-typedef long long int ll;
-typedef vector<ll> VL;
 typedef vector<VI> VVI;
 typedef pair<int,int> PII;
-typedef vector<PII> VII;
 typedef pair<pair<int,int>,int> PIII;
-
-ll dp[105][105][2];
-int n, k, d;
-ll solve(int i, int sum, int hasD) {
-  if (sum > n) {
-    return 0;
-  }
-  if (dp[i][sum][hasD] != -1) {
-    return dp[i][sum][hasD];
-  }
-  if (sum == n && hasD == 1) {
-    return 1;
-  }
-  if (sum == n && hasD == 0) {
-    return 0;
-  }
-
-  ll res = 0;
-  for (size_t j = 1; j <= k; j++) {
-    int hasD_ = 0;
-    if (j >= d) hasD_ = 1;
-    res = (res + solve(i+1, sum+j, hasD|hasD_)) % MOD;
-  }
-  return dp[i][sum][hasD] = res;
-}
+typedef long long int ll;
 
 int main() {
   freopen("in.txt","r", stdin);
-  //freopen("out.txt","w", stdout);
-  for (size_t i = 0; i < 105; i++) {
-    for (size_t j = 0; j < 105; j++) {
-      dp[i][j][0] = -1;
-      dp[i][j][1] = -1;
+  // freopen("out.txt","w", stdout);
+  int n;
+  cin >> n;
+  int sr = sqrt(n);
+  VI res;
+  for (size_t i = 0; i < n/sr; i++) {
+    for (size_t j = n-sr*(i+1)+1; j <= n-sr*i; j++) {
+      res.push_back(j);
     }
   }
-  cin >> n >> k >> d;
-  cout << solve(0, 0, 0) << endl;
+  for (size_t i = 1; i <= n%sr; i++) {
+    res.push_back(i);
+  }
+  for (size_t i = 0; i < res.size(); i++) {
+    cout << res[i];
+    if (i < res.size() - 1) cout << " ";
+    else cout << endl;
+  }
   return 0;
 }
