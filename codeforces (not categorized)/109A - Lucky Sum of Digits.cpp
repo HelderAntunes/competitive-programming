@@ -5,6 +5,7 @@ using namespace std;
 #define PB              push_back
 #define ALL(v)          (v).begin() , (v).end()
 #define Set(v,x)        memset(  v , x , sizeof(v))
+#define two(n)          ( 1 << (n) )
 #define contain(Set,i)  ( (Set) & two(i) )
 #define __join(a,b)     a##b
 #define foreach(c, i)   for(__typeof((c).begin())i=(c).begin(),__join(i,__end)=(c).end();i!=__join(i,__end);i++)
@@ -30,44 +31,37 @@ typedef pair<pair<int,int>,int> PIII;
 
 int main() {
   freopen("in.txt","r", stdin);
-  // freopen("out.txt","w", stdout);
-  int n;
+  //freopen("out.txt","w", stdout);
+
+  ll n;
   cin >> n;
-  VI a(n);
-  VI visit(n, 0);
-  for (size_t i = 0; i < n; i++) {
-    cin >> a[i];
-  }
-
-  sort(ALL(a));
-  int res = 0;
-  bool done = false;
-  for (size_t i = 0; i < n && !done; i++) {
-    if (visit[i] == 1) continue;
-
-    int count = 1;
-    visit[i] = 1;
-    for (size_t j = i+1; j < n; j++) {
-      if (visit[j] == 1) continue;
-
-      if (a[j] >= count) {
-        visit[j] = 1;
-        count++;
-      }
-    }
-
-    res++;
-
-    for (size_t j = 0; j < n; j++) {
-      if (visit[j] == 0) {
-        break;
-      } else if (j == n-1) {
-          done = true;
+  int sol4 = -1, sol7 = -1, count = INF;
+  for (size_t i = 0;i*7<=n; i++) {
+    int sobra = n-i*7;
+    if (sobra%4==0) {
+      int j = sobra/4;
+      if (i+j < count){
+        sol4 = j;
+        sol7 = i;
+        count = i+j;
+      } else if (i+j==count && j > sol4) {
+        sol4 = j;
+        sol7 = i;
+        count = i+j;
       }
     }
   }
-
-  cout << res << endl;
+  if (count == INF) {
+    cout << -1 << endl;
+  } else {
+    for (size_t i = 0; i < sol4; i++) {
+      cout << 4;
+    }
+    for (size_t i = 0; i < sol7; i++) {
+      cout << 7;
+    }
+    cout << endl;
+  }
 
   return 0;
 }

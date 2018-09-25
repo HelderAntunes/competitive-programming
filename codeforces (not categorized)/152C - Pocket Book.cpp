@@ -5,13 +5,14 @@ using namespace std;
 #define PB              push_back
 #define ALL(v)          (v).begin() , (v).end()
 #define Set(v,x)        memset(  v , x , sizeof(v))
+#define two(n)          ( 1 << (n) )
 #define contain(Set,i)  ( (Set) & two(i) )
 #define __join(a,b)     a##b
 #define foreach(c, i)   for(__typeof((c).begin())i=(c).begin(),__join(i,__end)=(c).end();i!=__join(i,__end);i++)
 
 #define FOR(i,n)        for (int i = 0 ; i < (n) ; i++)
 #define REP(i, b, e) 	  for(typeof(e) i=b; i!=e; ++i)
-#define INF             100000000
+#define INF             1000000
 #define EPS             1e-6
 #define MAX             100000
 #define MOD             1000000007
@@ -30,44 +31,27 @@ typedef pair<pair<int,int>,int> PIII;
 
 int main() {
   freopen("in.txt","r", stdin);
-  // freopen("out.txt","w", stdout);
-  int n;
-  cin >> n;
-  VI a(n);
-  VI visit(n, 0);
+  //freopen("out.txt","w", stdout);
+
+  int n, m;
+  cin >> n >> m;
+  vector<VI> count(m, VI(26, 0));
   for (size_t i = 0; i < n; i++) {
-    cin >> a[i];
-  }
-
-  sort(ALL(a));
-  int res = 0;
-  bool done = false;
-  for (size_t i = 0; i < n && !done; i++) {
-    if (visit[i] == 1) continue;
-
-    int count = 1;
-    visit[i] = 1;
-    for (size_t j = i+1; j < n; j++) {
-      if (visit[j] == 1) continue;
-
-      if (a[j] >= count) {
-        visit[j] = 1;
-        count++;
-      }
-    }
-
-    res++;
-
-    for (size_t j = 0; j < n; j++) {
-      if (visit[j] == 0) {
-        break;
-      } else if (j == n-1) {
-          done = true;
-      }
+    string s;
+    cin >> s;
+    for (size_t j = 0; j < m; j++) {
+      int digit = (int)(s[j]-'A');
+      count[j][digit] = 1;
     }
   }
 
-  cout << res << endl;
+  ll ans = 1;
+  for (size_t i = 0; i < m; i++) {
+    int sum = 0;
+    for (size_t j = 0; j < 26; j++) sum += count[i][j];
+    ans = ans * 1LL * sum % MOD;
+  }
+  cout << ans << endl;
 
   return 0;
 }
