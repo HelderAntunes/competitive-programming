@@ -29,8 +29,44 @@ typedef vector<PII> VII;
 typedef pair<pair<int,int>,int> PIII;
 
 int main() {
-  freopen("in.txt","r", stdin);
+  // freopen("in.txt","r", stdin);
   // freopen("out.txt","w", stdout);
-  
+  string s;
+  cin >> s;
+  stack<int> S;
+  for (size_t i = 0; i < s.size(); i++) {
+    char c = s[i];
+    if (c >= '2' && c <= '9') {
+      int v = S.top();
+      S.pop();
+      int mul = (int)c-(int)'2'+2;
+      S.push(v*mul);
+    } else if (c == '(') {
+      S.push(-1);
+    } else if (c == ')') {
+      int v = 0;
+      while(!S.empty() && S.top() != -1) {
+        v += S.top();
+        S.pop();
+      }
+      S.pop();
+      S.push(v);
+    } else {
+      if (c == 'H') {
+        S.push(1);
+      } else if (c == 'O') {
+        S.push(16);
+      } else if (c =='C') {
+        S.push(12);
+      }
+    }
+  }
+
+  int ans = 0;
+  while(!S.empty()) {
+    ans += S.top();
+    S.pop();
+  }
+  cout << ans << endl;
   return 0;
 }
